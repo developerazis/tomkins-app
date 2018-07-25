@@ -50,4 +50,16 @@ class Penjualan extends CI_Controller{
 
   }
 
+  /**
+   * [report description]
+   * 
+   * @return [type] [description]
+   */
+  public function report()
+  {
+      $data['reports'] = $this->model_api_penjualan->getReport();
+      // var_export($data);die();
+      $this->load->view('pages/reports', $data);
+  }
+
 }

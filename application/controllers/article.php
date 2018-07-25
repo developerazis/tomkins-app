@@ -28,21 +28,4 @@ class Article extends CI_Controller{
     echo json_encode($response,TRUE);
   }
 
-  function getArticleById()
-  {
-    $id = $this->uri->segment(3);
-    $rows = $this->model_api_article->getById($id)->row();
-    $dataGenre = array('genre_id' => $rows->genre_id, 'genre' => $rows->genre);
-    $dataSize = array('size_id' => $rows->size_id ,'size' => intval($rows->size), 'genre' => $dataGenre );
-    $result = array('artikel_id' => $rows->artikel_id ,
-                      'artikel' => $rows->artikel,
-                      'harga' => intval($rows->harga),
-                      'size' => $dataSize);
-    $response['result'] = $result;
-    $response['status'] = 'success';
-    $response['code'] = 200;
-    header('Content-Type: application/json');
-    echo json_encode($response,TRUE);
-  }
-
 }

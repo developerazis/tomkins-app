@@ -18,16 +18,6 @@ class Model_api_article extends CI_Model{
     return $this->db->get();
   }
 
-  public function getById($id)
-  {
-    $this->db->select('*');
-    $this->db->from('tb_artikel a');
-    $this->db->join('tb_size s', 's.size_id = a.size_id');
-    $this->db->join('tb_genre g', 'g.genre_id = s.genre_id');
-    $this->db->where('artikel_id', $id);
-    return $this->db->get();
-  }
-
 
 
 }

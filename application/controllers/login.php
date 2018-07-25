@@ -9,9 +9,14 @@ class Login extends CI_Controller{
     $this->load->model(array('model_api_login','model_counter_api'));
   }
 
-  function index()
+  /**
+   * [index description]
+   * 
+   * @return [type] [description]
+   */
+  public function index()
   {
-
+      $this->load->view('pages/login');
   }
 
   function authenticationSales()

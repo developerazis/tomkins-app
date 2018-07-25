@@ -49,6 +49,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'login';
+$route['home'] = 'home';
+
+// counter CRUD
+$route['counter'] = 'counter/page';
+$route['counter/edit/(:num)'] = 'counter/formEdit';
+$route['counter/add']['post'] = 'counter/add';
+$route['counter/edit_action/(:num)']['post'] = 'counter/edit';
+$route['counter/delete/(:num)'] = 'counter/delete';
+
+// sales CRUD
+$route['sales'] = 'sales/page';
+$route['sales/edit/(:num)'] = 'sales/formEdit';
+$route['sales/add']['post'] = 'sales/add';
+$route['sales/delete/(:num)'] = 'sales/delete';
+
+// pic CRUD
+$route['pic'] = 'pic/page';
+$route['pic/edit/(:num)'] = 'pic/formEdit';
+$route['pic/add']['post'] = 'pic/add';
+$route['pic/edit_action/(:num)']['post'] = 'pic/edit';
+$route['pic/delete/(:num)'] = 'pic/delete';
+
+$route['report'] = 'penjualan/report';
+$route['report/pdf'] = 'penjualan/toPDF';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

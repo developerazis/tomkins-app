@@ -64,4 +64,27 @@ class Model_sales_api extends CI_Model{
     $this->db->delete('tb_sales');
   }
 
+  /**
+   * [getAllSales description]
+   * 
+   * @return [type] [description]
+   */
+  public function getAllSales()
+  {
+      $this->db->select('sales.*, counter.counter_id, counter.nama_counter');
+      $this->db->from('tb_sales sales');
+      $this->db->join('tb_counter counter','counter.counter_id = sales.counter_id');
+      return $this->db->get()->result_array(); 
+  }
+
+  /**
+   * [getAllCounter description]
+   * 
+   * @return [type] [description]
+   */
+  public function getAllCounter()
+  {
+      return $this->db->get('tb_counter')->result_array(); 
+  }
+
 }

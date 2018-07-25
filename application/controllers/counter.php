@@ -125,4 +125,90 @@ class Counter extends CI_Controller{
 
   }
 
+  /**
+   * [page description]
+   * 
+   * @return [type] [description]
+   */
+  public function page()
+  {
+      $counters = $this->model_counter_api->getAll()->result();
+      foreach ($counters as $row) {
+        $counter[] = array('counter_id' => $row->counter_id,
+                      'nama_counter' => $row->nama_counter,
+                      'alamat' => $row->alamat,
+                      'nama_wilayah' => $row->nama_wilayah);
+      }
+
+      $data['counters'] = $counter;
+      // var_export($counters);die();
+      $data['region'] = $this->model_counter_api->getWilayah()->result_array();
+      
+      $this->load->view('pages/counter', $data);
+  }
+
+  /**
+   * [formEdit description]
+   * 
+   * @return [type] [description]
+   */
+  public function formEdit()
+  {
+      $parameter = $this->uri->segment(3);
+      $data['counter'] = $this->model_counter_api->getCounterById($parameter);
+      $data['region'] = $this->model_counter_api->getWilayah()->result_array();
+
+      $this->load->view('pages/counter_edit', $data);
+  }
+
+  /**
+   * [FunctionName description]
+   * 
+   * @param string $value [description]
+   */
+  public function add()
+  {
+      $data = $this->input->post('counter');
+      $isSuccessfully = $this->model_counter_api->insert($data);
+      if ($isSuccessfully > 0) {
+        $response['code'] = 200;
+        $response['status'] = 'success';
+      }else {
+        $response['code'] = 502;
+        $response['status'] = 'fail';
+      }
+
+      redirect('counter');
+  }
+
+  /**
+   * [edit description]
+   * 
+   * @return [type] [description]
+   */
+  public function edit()
+  {
+      $id = $this->uri->segment(3);
+      $data = array('nama_counter' => $this->input->post('nama_counter'),
+                    'wilayah_id' => $this->input->post('wilayah_id'),
+                    'alamat' => $this->input->post('alamat'));
+      // var_export($data);die();
+      $isSuccessfully = $this->model_counter_api->update($id, $data);
+
+      redirect('counter');
+  }
+
+  /**
+   * [delete description]
+   * 
+   * @return [type] [description]
+   */
+  public function delete()
+  {
+      $id = $this->uri->segment(3);
+      $isSuccessfully = $this->model_counter_api->delete($id);
+
+      redirect('counter');
+  }
+
 }

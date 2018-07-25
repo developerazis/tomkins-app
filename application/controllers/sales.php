@@ -166,4 +166,95 @@ class Sales extends CI_Controller{
     echo json_encode($response,TRUE);
   }
 
+  /**
+   * [page description]
+   * 
+   * @return [type] [description]
+   */
+  public function page()
+  {
+      $sales = $this->model_sales_api->getAllSales();
+      $data['sales'] = $sales;
+      $data['counter'] = $this->model_sales_api->getAllCounter();
+
+      $this->load->view('pages/sales', $data);
+  }
+
+  /**
+   * [formEdit description]
+   * 
+   * @return [type] [description]
+   */
+  public function formEdit()
+  {
+      $parameter = $this->uri->segment(3);
+      $rows = array();
+      $salesData = $this->model_sales_api->getSalesById($parameter)->result();
+      foreach ($salesData as $row) {
+        $dataLogin = array('id' => $row->id , 'username' => $row->username);
+        $counter_sales = array('counter_id' => $row->counter_id, 'nama_counter' => $row->nama_counter);
+        $rows = array('sales_id' => $row->sales_id,
+                        'nama' => $row->nama,
+                        'alamat' => $row->alamat,
+                        'no_telp' => $row->no_telp,
+                        'login' => $dataLogin,
+                        'counter' => $counter_sales);
+      }
+
+      $response['result'] = $rows;
+      $response['counter'] = $this->model_sales_api->getAllCounter();
+      
+      $this->load->view('pages/sales_edit', $response);
+  }
+
+  /**
+   * [FunctionName description]
+   * 
+   * @param string $value [description]
+   */
+  public function add()
+  {
+      $data = $this->input->post('sales');
+      $isSuccessfully = $this->model_sales_api->insert($data);
+      if ($isSuccessfully > 0) {
+        $response['code'] = 200;
+        $response['status'] = 'succes s';
+      }else {
+        $response['code'] = 502;
+        $response['status'] = 'fail';
+      }
+
+      redirect('sales');
+  }
+
+  /**
+   * [edit description]
+   * 
+   * @return [type] [description]
+   */
+  public function edit()
+  {
+      $id = $this->uri->segment(3);
+      $data = array('nama_counter' => $this->input->post('nama_counter'),
+                    'wilayah_id' => $this->input->post('wilayah_id'),
+                    'alamat' => $this->input->post('alamat'));
+      // var_export($data);die();
+      $isSuccessfully = $this->model_counter_api->update($id, $data);
+
+      redirect('sales');
+  }
+
+  /**
+   * [delete description]
+   * 
+   * @return [type] [description]
+   */
+  public function delete()
+  {
+      $id = $this->uri->segment(3);
+      $isSuccessfully = $this->model_sales_api->delete($id);
+
+      redirect('sales');
+  }
+
 }

@@ -29,6 +29,24 @@ class Model_api_penjualan extends CI_Model{
     return $this->db->affected_rows();
   }
 
+  /**
+   * [getHeader description]
+   * 
+   * @return [type] [description]
+   */
+  public function getReport()
+  {
+      $this->db->select('h.tanggal, h.total_jual, d.disc, d.sub_total, a.artikel, s.nama, c.nama_counter, x.size');
+      $this->db->from('header_penjualan h');
+      $this->db->join('detail_penjualan d', 'd.id_penjualan = h.id_penjualan');
+      $this->db->join('tb_sales s', 's.sales_id = h.sales_id');
+      $this->db->join('tb_counter c', 'c.counter_id = s.counter_id');
+      $this->db->join('tb_artikel a', 'a.artikel_id = d.artikel_id');
+      $this->db->join('tb_size x', 'x.size_id = a.size_id');
+      
+      return $this->db->get()->result_array();
+  }
+
 
 
 }

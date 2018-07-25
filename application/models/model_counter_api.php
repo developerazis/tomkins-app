@@ -14,7 +14,6 @@ class Model_counter_api extends CI_Model{
     $this->db->select('*');
     $this->db->from('tb_counter c');
     $this->db->join('tb_wilayah w', 'w.wilayah_id = c.wilayah_id');
-    $this->db->join('tb_pic p', 'p.pic_id = w.pic_id');
     return $this->db->get();
   }
 
@@ -70,6 +69,19 @@ class Model_counter_api extends CI_Model{
     $this->db->where('counter_id', $id);
     $this->db->delete('tb_counter');
     return $this->db->affected_rows();
+  }
+
+  /**
+   * [getCounterById description]
+   * 
+   * @param  [type] $id [description]
+   * @return [type]     [description]
+   */
+  public function getCounterById($id)
+  {
+      $this->db->where('counter_id', $id);
+  
+      return $this->db->get('tb_counter')->result_array();
   }
 
 }
